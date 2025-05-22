@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO: Core Meta Tags -->
+    <title>Online Notepad - Free, Secure & Easy Web-Based Text Editor</title>
+    <meta name="description" content="Your go-to Online Notepad for quick notes. Free, secure, responsive, and easy to use. No installation required. Save, edit, and manage your text effortlessly.">
+    <meta name="keywords" content="online notepad, free notepad, web notepad, text editor, online editor, notes, quick notes, digital notepad, browser notepad, simple text editor">
+    <link rel="canonical" href="https://yourdomain.com/notepad.html"> <!-- SEO: IMPORTANT: Replace with your actual URL -->
+    <meta name="robots" content="index, follow">
+
+    <!-- SEO: Favicon - Replace 'favicon.ico' and 'logo192.png', 'logo512.png' with your actual icon files -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="logo192.png"> <!-- For Apple devices -->
+    <link rel="manifest" href="manifest.json"> <!-- For Progressive Web App (PWA) capabilities - create this file -->
+
+    <!-- SEO: Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com/notepad.html"> <!-- SEO: IMPORTANT: Replace with your actual URL -->
+    <meta property="og:title" content="Online Notepad - Free, Secure & Easy Web-Based Text Editor">
+    <meta property="og:description" content="Your go-to Online Notepad for quick notes. Free, secure, responsive, and easy to use. No installation required. Save, edit, and manage your text effortlessly.">
+    <meta property="og:image" content="https://yourdomain.com/online-notepad-preview.jpg"> <!-- SEO: IMPORTANT: Replace with a URL to a preview image (e.g., 1200x630px) -->
+    <meta property="og:site_name" content="Online Notepad">
+
+    <!-- SEO: Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://yourdomain.com/notepad.html"> <!-- SEO: IMPORTANT: Replace with your actual URL -->
+    <meta name="twitter:title" content="Online Notepad - Free, Secure & Easy Web-Based Text Editor">
+    <meta name="twitter:description" content="Your go-to Online Notepad for quick notes. Free, secure, responsive, and easy to use. No installation required. Save, edit, and manage your text effortlessly.">
+    <meta name="twitter:image" content="https://yourdomain.com/online-notepad-preview.jpg"> <!-- SEO: IMPORTANT: Replace with a URL to a preview image -->
+    <!-- <meta name="twitter:creator" content="@YourTwitterHandle"> --> <!-- Optional: Your Twitter handle -->
+
+    <!-- SEO: Schema.org markup for WebApplication (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Online Notepad",
+      "alternateName": "Free Web Notepad",
+      "description": "A free, secure, and responsive online notepad for quick note-taking, editing, and saving directly in your browser. No installation required.",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Web browser",
+      "url": "https://yourdomain.com/notepad.html", /* SEO: IMPORTANT: Replace with your actual URL */
+      "screenshot": "https://yourdomain.com/online-notepad-screenshot.jpg", /* SEO: IMPORTANT: Replace with a URL to a screenshot */
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "featureList": [
+        "Text Editing",
+        "File Save (.txt)",
+        "File Open (.txt, .md, etc.)",
+        "Local Storage Autosave",
+        "Font Customization",
+        "Word Count",
+        "Character Count",
+        "Print Functionality",
+        "Fullscreen Mode",
+        "Undo/Redo",
+        "Cut/Copy/Paste"
+      ],
+      "creator": {
+        "@type": "Organization", /* Or "Person" if it's an individual project */
+        "name": "Your Brand/Name" /* SEO: IMPORTANT: Replace with your brand or name */
+      }
+    }
+    </script>
+
+    <style>
+        /* Basic Reset and Body Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            /* Changed background gradient to light red and light pink */
+            background: linear-gradient(135deg, #f08080 0%, #ffb6c1 100%); /* Light Coral to Light Pink */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto; /* Allow body scroll if content overflows */
+        }
+
+        /* Notepad Container */
+        .notepad-container {
+            width: 100%;
+            max-width: 1000px; /* Max width for larger screens */
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 80vh; /* Ensure a minimum height */
+        }
+
+        /* Header */
+        .notepad-header {
+            background-color: #e6e6e6;
+            padding: 10px 15px;
+            border-bottom: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .notepad-header h1 {
+            font-size: 1.8rem; /* Responsive font size */
+            color: #333; /* Slightly darker for better contrast */
+        }
+
+        /* Menu Bar */
+        .menu-bar {
+            display: flex;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            padding: 5px 10px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .menu-item {
+            position: relative;
+            margin-right: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            user-select: none; /* Prevent text selection */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            color: #444; /* Menu item text color */
+        }
+
+        .menu-item:hover {
+            background-color: #e0e0e0;
+            border-radius: 4px;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            background-color: #f4f4f4;
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            align-items: center;
+            gap: 5px; /* Spacing between items */
+        }
+
+        .toolbar-item {
+            width: 30px; /* Slightly larger touch target */
+            height: 30px; /* Slightly larger touch target */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 3px;
+            flex-shrink: 0; /* Prevent shrinking */
+            color: #555; /* Icon color */
+        }
+
+        .toolbar-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        .toolbar-item svg {
+            width: 18px; /* Slightly larger icons */
+            height: 18px; /* Slightly larger icons */
+            stroke: currentColor; /* Inherit color from parent .toolbar-item */
+        }
+
+
+        .toolbar-separator {
+            width: 1px;
+            height: 24px;
+            background-color: #ddd;
+            margin: 0 5px;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        .dropdown {
+            display: flex;
+            align-items: center;
+            margin-left: 5px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 3px 8px;
+            cursor: pointer;
+            background-color: white;
+            flex-grow: 1; /* Allow dropdowns to grow */
+            min-width: 120px; /* Minimum width for dropdowns */
+        }
+
+        .dropdown select {
+            border: none;
+            background: transparent;
+            outline: none;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%; /* Make select fill the dropdown container */
+            color: #333;
+        }
+
+        /* Content Area (Text Editor) */
+        .content-area {
+            flex-grow: 1; /* Allow content area to take available space */
+            padding: 10px;
+            background-color: white;
+            overflow: auto; /* Enable scrolling if content overflows */
+            display: flex; /* Use flex to make textarea fill the area */
+            min-height: 200px; /* Ensure minimum height for editor */
+        }
+
+        #editor {
+            width: 100%; /* Fill the content area */
+            height: 100%; /* Fill the content area */
+            border: none;
+            outline: none;
+            resize: none; /* Prevent manual resizing by user */
+            font-size: 16px;
+            line-height: 1.5;
+            padding: 0; /* Remove default padding */
+            color: #222; /* Editor text color */
+        }
+
+        #editor::placeholder { /* Style placeholder text */
+            color: #aaa;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            padding: 5px 10px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        /* Dropdown Menus */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            border-radius: 4px;
+            top: 100%; /* Position below the menu item */
+            left: 0;
+            min-width: 180px;
+            max-width: 80vw; /* Max width relative to viewport */
+            overflow-y: auto; /* Allow scrolling for long menus */
+            max-height: calc(100vh - 100px); /* Max height relative to viewport height */
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
+        }
+
+        .dropdown-item {
+            padding: 8px 15px;
+            cursor: pointer;
+            white-space: nowrap; /* Prevent wrapping */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f5f5f5;
+            color: #333; /* Dropdown item text color */
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 4px;
+            color: white;
+            max-width: 80%;
+            z-index: 1000;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Added transform for smoother entry/exit */
+            opacity: 0;
+            transform: translateY(20px); /* Start slightly offset for animation */
+            pointer-events: none; /* Allow clicks to pass through when hidden */
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0); /* Animate to original position */
+            pointer-events: auto; /* Enable clicks when shown */
+        }
+
+        .notification.success { background-color: #4CAF50; }
+        .notification.error { background-color: #F44336; } /* Standard red, F4436A is not a standard hex */
+        .notification.warning { background-color: #FF9800; }
+        .notification.info { background-color: #2196F3; }
+
+
+        /* Fullscreen Mode */
+        .fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 999; /* Above other content */
+            background-color: #f4f4f4; /* Match notepad background */
+            padding: 0; /* Remove padding in fullscreen */
+            border-radius: 0; /* Remove border radius */
+            box-shadow: none; /* Remove shadow */
+        }
+
+        .fullscreen .content-area {
+             height: calc(100vh - 40px - 30px - 40px - 20px); /* Approximate, adjust if needed */
+             display: flex;
+             flex-direction: column;
+             padding: 10px;
+        }
+
+         .fullscreen #editor {
+             width: 100%;
+             height: 100%;
+         }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .notepad-container {
+                min-height: 95vh;
+            }
+
+            .notepad-header h1 {
+                font-size: 1.3rem;
+            }
+
+            .menu-bar {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding: 5px;
+                -webkit-overflow-scrolling: touch;
+                justify-content: flex-start;
+            }
+
+            .menu-item {
+                 padding: 5px 8px;
+                 margin-right: 5px;
+                 flex-shrink: 0;
+            }
+
+            .toolbar {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                padding: 8px 5px;
+            }
+
+            .toolbar-item {
+                 width: 35px;
+                 height: 35px;
+                 padding: 5px;
+            }
+
+            .toolbar-item svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .toolbar-separator {
+                height: 30px;
+                margin: 0 3px;
+            }
+
+            .dropdown {
+                margin: 5px 3px;
+                flex-grow: 1;
+                max-width: 48%;
+                min-width: 100px;
+            }
+
+             .dropdown select {
+                font-size: 13px;
+             }
+
+            .status-bar {
+                font-size: 11px;
+                 padding: 5px 8px;
+            }
+
+            .dropdown-menu {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 350px;
+                max-height: 70vh;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                border-radius: 8px;
+            }
+
+            .dropdown-menu::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: -1;
+            }
+
+            .notification {
+                bottom: 10px;
+                right: 10px;
+                max-width: 90%;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .notepad-header h1 {
+                font-size: 1.1rem;
+            }
+
+            .toolbar {
+                gap: 5px;
+            }
+
+            .toolbar-item {
+                width: 30px;
+                height: 30px;
+                padding: 3px;
+            }
+
+             .toolbar-item svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .dropdown {
+                 max-width: 100%;
+                 margin: 3px 0;
+            }
+
+            .status-bar {
+                flex-direction: column;
+                align-items: center;
+                gap: 3px;
+            }
+
+            .dropdown-menu {
+                 width: 95%;
+                 max-width: none;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body, .notepad-container {
+                height: auto;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                background: white;
+                box-shadow: none;
+                color: #000 !important; /* Ensure text is black for printing */
+            }
+
+            .notepad-header h1, #editor {
+                color: #000 !important; /* Ensure important text is black */
+            }
+
+            .menu-bar, .toolbar, .status-bar, .fullscreen-toggle, .notification { /* Hide notifications too */
+                display: none !important;
+            }
+
+            .content-area, #editor {
+                height: auto;
+                border: none;
+                overflow: visible;
+                background-color: white !important;
+            }
+
+            .notepad-header {
+                text-align: center;
+                margin-bottom: 20px;
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="notepad-container">
+        <header class="notepad-header"> <!-- Changed div to header for semantics -->
+            <h1>Online Notepad</h1>
+        </header>
+
+        <nav class="menu-bar" aria-label="Main Menu"> <!-- Changed div to nav for semantics -->
+            <div class="menu-item" role="button" aria-haspopup="true">File</div>
+            <div class="menu-item" role="button" aria-haspopup="true">Edit</div>
+            <div class="menu-item" role="button" aria-haspopup="true">Insert</div>
+            <div class="menu-item" role="button" aria-haspopup="true">View</div>
+            <div class="menu-item" role="button" aria-haspopup="true">Help</div>
+        </nav>
+
+        <div class="toolbar" role="toolbar" aria-label="Formatting Toolbar">
+            <button class="toolbar-item" title="New document" data-action="new" aria-label="New document">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+            </button>
+            <button class="toolbar-item" title="Open file" data-action="open" aria-label="Open file">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </button>
+            <button class="toolbar-item" title="Save" data-action="save" aria-label="Save document">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                    <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+            </button>
+            <button class="toolbar-item" title="Print" data-action="print" aria-label="Print document">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+            </button>
+            <div class="toolbar-separator" role="separator"></div>
+            <button class="toolbar-item" title="Cut" data-action="cut" aria-label="Cut selection">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <circle cx="6" cy="6" r="3"></circle>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                    <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                    <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+                </svg>
+            </button>
+            <button class="toolbar-item" title="Copy" data-action="copy" aria-label="Copy selection">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </button>
+            <button class="toolbar-item" title="Paste" data-action="paste" aria-label="Paste from clipboard">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
+            </button>
+            <div class="toolbar-separator" role="separator"></div>
+            <button class="toolbar-item" title="Undo" data-action="undo" aria-label="Undo last action">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <path d="M3 10h10a8 8 0 1 1 0 16H3"></path>
+                    <path d="M3 10l6-6"></path>
+                    <path d="M3 10l6 6"></path>
+                </svg>
+            </button>
+            <button class="toolbar-item" title="Redo" data-action="redo" aria-label="Redo last action">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <path d="M21 10H11a8 8 0 1 0 0 16h10"></path>
+                    <path d="M21 10l-6-6"></path>
+                    <path d="M21 10l-6 6"></path>
+                </svg>
+            </button>
+            <div class="toolbar-separator" role="separator"></div>
+            <button class="toolbar-item" title="Find" data-action="find" aria-label="Find text">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+            <div class="toolbar-separator" role="separator"></div>
+            <div class="dropdown">
+                <label for="font-family" class="visually-hidden">Font Family</label> <!-- Accessibility -->
+                <select id="font-family" aria-label="Font Family">
+                    <option value="Arial">Font Family</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Roboto, sans-serif">Roboto</option>
+                    <option value="Open Sans, sans-serif">Open Sans</option>
+                    <option value="Lato, sans-serif">Lato</option>
+                </select>
+            </div>
+            <div class="dropdown">
+                <label for="font-size" class="visually-hidden">Font Size</label> <!-- Accessibility -->
+                <select id="font-size" aria-label="Font Size">
+                    <option value="16">Font Sizes</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="14">14</option>
+                    <option value="16">16</option>
+                    <option value="18">18</option>
+                    <option value="20">20</option>
+                    <option value="24">24</option>
+                    <option value="28">28</option>
+                    <option value="32">32</option>
+                </select>
+            </div>
+             <button class="toolbar-item" title="Zoom In" data-action="zoomIn" aria-label="Zoom In">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+            </button>
+            <button class="toolbar-item" title="Zoom Out" data-action="zoomOut" aria-label="Zoom Out">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+            </button>
+            <button class="toolbar-item" title="Toggle Full Screen" data-action="fullscreen" aria-label="Toggle Full Screen">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true" focusable="false">
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <polyline points="9 21 3 21 3 15"></polyline>
+                    <line x1="21" y1="3" x2="14" y2="10"></line>
+                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                </svg>
+            </button>
+        </div>
+
+        <main class="content-area"> <!-- Changed div to main for semantics -->
+            <label for="editor" class="visually-hidden">Text Editor</label> <!-- Accessibility -->
+            <textarea id="editor" placeholder="Type your text here..." aria-label="Main text editor"></textarea>
+        </main>
+
+        <footer class="status-bar"> <!-- Changed div to footer for semantics -->
+            <div class="word-count" aria-live="polite">Words: 0</div>
+            <div class="char-count" aria-live="polite">Characters: 0</div>
+        </footer>
+    </div>
+
+    <!-- Visually hidden class for accessibility labels -->
+    <style>
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editor = document.getElementById('editor');
+            const wordCount = document.querySelector('.word-count');
+            const charCount = document.querySelector('.char-count');
+            const fontFamilySelect = document.getElementById('font-family');
+            const fontSizeSelect = document.getElementById('font-size');
+            const toolbarItems = document.querySelectorAll('.toolbar-item'); // Will now select buttons
+            const menuItems = document.querySelectorAll('.menu-item');
+            const notepadContainer = document.querySelector('.notepad-container');
+
+            let currentFontSize = parseInt(localStorage.getItem('notepad-font-size') || '16');
+
+            function updateCounts() {
+                const text = editor.value;
+                const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).filter(word => word !== '').length;
+                const chars = text.length;
+                wordCount.textContent = `Words: ${words}`;
+                charCount.textContent = `Characters: ${chars}`;
+            }
+
+            function formatText(command, value = null) {
+                try {
+                     document.execCommand(command, false, value);
+                } catch (e) {
+                    console.error(`Error executing command ${command}:`, e);
+                    showNotification(`Action "${command}" failed. Your browser might not support it.`, 'error');
+                }
+                editor.focus();
+            }
+
+            fontFamilySelect.addEventListener('change', function() {
+                editor.style.fontFamily = this.value;
+                localStorage.setItem('notepad-font-family', this.value);
+            });
+
+            fontSizeSelect.addEventListener('change', function() {
+                currentFontSize = parseInt(this.value);
+                editor.style.fontSize = currentFontSize + 'px';
+                localStorage.setItem('notepad-font-size', currentFontSize);
+            });
+
+            function loadFontPreferences() {
+                const savedFontFamily = localStorage.getItem('notepad-font-family');
+                const savedFontSize = localStorage.getItem('notepad-font-size');
+
+                if (savedFontFamily) {
+                    editor.style.fontFamily = savedFontFamily;
+                    if ([...fontFamilySelect.options].some(option => option.value === savedFontFamily)) {
+                         fontFamilySelect.value = savedFontFamily;
+                    }
+                }
+
+                if (savedFontSize) {
+                    currentFontSize = parseInt(savedFontSize);
+                    editor.style.fontSize = currentFontSize + 'px';
+                    if ([...fontSizeSelect.options].some(option => option.value === savedFontSize)) {
+                         fontSizeSelect.value = savedFontSize;
+                    }
+                } else { // Set default if nothing is saved for font size
+                    editor.style.fontSize = currentFontSize + 'px';
+                    fontSizeSelect.value = currentFontSize.toString();
+                }
+            }
+
+            function insertTextAtCursor(text) {
+                const startPos = editor.selectionStart;
+                const endPos = editor.selectionEnd;
+                const value = editor.value;
+                editor.value = value.substring(0, startPos) + text + value.substring(endPos);
+                editor.selectionStart = editor.selectionEnd = startPos + text.length;
+                editor.focus();
+                updateCounts();
+            }
+
+            function newDocument() {
+                if (editor.value.trim() !== '' && !confirm('You have unsaved changes. Do you want to create a new document?')) {
+                    return;
+                }
+                editor.value = '';
+                updateCounts();
+                localStorage.removeItem('notepad-content');
+                showNotification('New document created.', 'info');
+            }
+
+            function openFile() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.txt, .md, .html, .css, .js, .json, .xml, .log, .csv, text/*';
+                input.style.display = 'none';
+                document.body.appendChild(input);
+                input.onchange = e => {
+                    const file = e.target.files[0];
+                    if (!file) {
+                        document.body.removeChild(input); return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        editor.value = e.target.result;
+                        updateCounts();
+                        document.body.removeChild(input);
+                        showNotification(`File "${file.name}" loaded successfully!`, 'success');
+                    };
+                    reader.onerror = function() {
+                        showNotification('Error reading file!', 'error');
+                        document.body.removeChild(input);
+                    };
+                    reader.readAsText(file);
+                };
+                input.click();
+            }
+
+            function saveDocument() {
+                const content = editor.value;
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                const a = document.createElement('a');
+                const now = new Date();
+                const timestamp = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
+                const fileName = `notepad_note_${timestamp}.txt`;
+                a.href = URL.createObjectURL(blob);
+                a.download = fileName;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                URL.revokeObjectURL(a.href);
+                document.body.removeChild(a);
+                showNotification('Document saved as ' + fileName, 'success');
+            }
+
+            function selectAll() {
+                editor.select();
+                editor.focus();
+            }
+
+            function findText() {
+                 showNotification('Using browser\'s built-in Find. Press Ctrl+F (Cmd+F on Mac).', 'info');
+            }
+
+            function insertDate() {
+                const today = new Date();
+                const date = today.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+                insertTextAtCursor(date);
+                showNotification('Date inserted.', 'info');
+            }
+
+            function insertTime() {
+                const now = new Date();
+                const time = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+                insertTextAtCursor(time);
+                showNotification('Time inserted.', 'info');
+            }
+
+            function toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    if (notepadContainer.requestFullscreen) notepadContainer.requestFullscreen();
+                    else if (notepadContainer.mozRequestFullScreen) notepadContainer.mozRequestFullScreen();
+                    else if (notepadContainer.webkitRequestFullscreen) notepadContainer.webkitRequestFullscreen();
+                    else if (notepadContainer.msRequestFullscreen) notepadContainer.msRequestFullscreen();
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+                    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                    else if (document.msExitFullscreen) document.msExitFullscreen();
+                }
+            }
+
+            function zoomIn() {
+                currentFontSize += 2;
+                editor.style.fontSize = currentFontSize + 'px';
+                localStorage.setItem('notepad-font-size', currentFontSize);
+                fontSizeSelect.value = currentFontSize.toString(); // Update select
+                 showNotification('Zoomed in.', 'info');
+            }
+
+            function zoomOut() {
+                if (currentFontSize > 6) {
+                    currentFontSize -= 2;
+                    editor.style.fontSize = currentFontSize + 'px';
+                    localStorage.setItem('notepad-font-size', currentFontSize);
+                    fontSizeSelect.value = currentFontSize.toString(); // Update select
+                    showNotification('Zoomed out.', 'info');
+                } else {
+                    showNotification('Cannot zoom out further.', 'warning');
+                }
+            }
+
+            function showKeyboardShortcuts() {
+                alert(`Keyboard Shortcuts:\nNew: Ctrl+N\nOpen: Ctrl+O\nSave: Ctrl+S\nPrint: Ctrl+P\nUndo: Ctrl+Z\nRedo: Ctrl+Y\nCut: Ctrl+X\nCopy: Ctrl+C\nPaste: Ctrl+V\nSelect All: Ctrl+A\nToggle Full Screen: F11\nZoom In: Ctrl++\nZoom Out: Ctrl+-`);
+            }
+
+            function showAbout() {
+                alert(`Online Notepad\nVersion 1.1 (SEO Enhanced)\n\nThis is a simple, free, and responsive online notepad.\nYour notes are saved locally in your browser via Local Storage.`);
+            }
+
+            editor.addEventListener('input', updateCounts);
+            
+            let saveTimeout;
+            function debouncedSaveToLocalStorage() {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(saveToLocalStorage, 1000); // Save 1 sec after last input
+            }
+            editor.addEventListener('input', debouncedSaveToLocalStorage);
+
+            window.addEventListener('beforeunload', saveToLocalStorage);
+
+            toolbarItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    switch (action) {
+                        case 'new': newDocument(); break;
+                        case 'open': openFile(); break;
+                        case 'save': saveDocument(); break;
+                        case 'print': window.print(); break;
+                        case 'cut': formatText('cut'); break;
+                        case 'copy': formatText('copy'); break;
+                        case 'paste':
+                            if (navigator.clipboard && navigator.clipboard.readText) {
+                                navigator.clipboard.readText()
+                                    .then(text => {
+                                        insertTextAtCursor(text);
+                                        showNotification('Pasted from clipboard.', 'success');
+                                    })
+                                    .catch(err => {
+                                        console.error('Failed to read clipboard contents: ', err);
+                                        formatText('paste'); // Fallback to execCommand
+                                        showNotification('Paste action attempted. Browser security may prevent programmatic paste. Try Ctrl+V.', 'warning');
+                                    });
+                            } else {
+                                formatText('paste'); // Fallback for older browsers
+                                showNotification('Paste action attempted. Browser security may prevent programmatic paste. Try Ctrl+V.', 'warning');
+                            }
+                            break;
+                        case 'undo': formatText('undo'); break;
+                        case 'redo': formatText('redo'); break;
+                        case 'find': findText(); break;
+                        case 'zoomIn': zoomIn(); break;
+                        case 'zoomOut': zoomOut(); break;
+                        case 'fullscreen': toggleFullscreen(); break;
+                        default: console.warn('Unknown toolbar action:', action);
+                    }
+                });
+            });
+
+            const menuOptions = {
+                'File': [
+                    { label: 'New', action: newDocument, shortcut: 'Ctrl+N' },
+                    { label: 'Open...', action: openFile, shortcut: 'Ctrl+O' },
+                    { label: 'Save As...', action: saveDocument, shortcut: 'Ctrl+S' },
+                    { label: 'Print...', action: () => window.print(), shortcut: 'Ctrl+P' }
+                ],
+                'Edit': [
+                    { label: 'Undo', action: () => formatText('undo'), shortcut: 'Ctrl+Z' },
+                    { label: 'Redo', action: () => formatText('redo'), shortcut: 'Ctrl+Y' },
+                    { type: 'separator' },
+                    { label: 'Cut', action: () => formatText('cut'), shortcut: 'Ctrl+X' },
+                    { label: 'Copy', action: () => formatText('copy'), shortcut: 'Ctrl+C' },
+                    { label: 'Paste', action: () => {
+                        if (navigator.clipboard && navigator.clipboard.readText) {
+                            navigator.clipboard.readText().then(text => insertTextAtCursor(text)).catch(err => { formatText('paste'); showNotification('Paste failed. Try Ctrl+V.', 'warning');});
+                        } else { formatText('paste'); showNotification('Paste failed. Try Ctrl+V.', 'warning');}
+                    }, shortcut: 'Ctrl+V' },
+                    { type: 'separator' },
+                    { label: 'Select All', action: selectAll, shortcut: 'Ctrl+A' }
+                ],
+                'Insert': [
+                    { label: 'Date', action: insertDate },
+                    { label: 'Time', action: insertTime },
+                    { label: 'Special Character (©)', action: () => insertTextAtCursor('©') }
+                ],
+                'View': [
+                    { label: 'Toggle Full Screen', action: toggleFullscreen, shortcut: 'F11' },
+                    { label: 'Zoom In', action: zoomIn, shortcut: 'Ctrl++' },
+                    { label: 'Zoom Out', action: zoomOut, shortcut: 'Ctrl+-' }
+                ],
+                'Help': [
+                    { label: 'Keyboard Shortcuts', action: showKeyboardShortcuts },
+                    { label: 'About Online Notepad', action: showAbout }
+                ]
+            };
+
+            function createDropdownMenu(menuItem, items) {
+                const dropdown = document.createElement('div');
+                dropdown.className = 'dropdown-menu';
+                dropdown.setAttribute('role', 'menu'); // Accessibility
+
+                items.forEach(item => {
+                    if (item.type === 'separator') {
+                        const separator = document.createElement('div');
+                        separator.style.height = '1px';
+                        separator.style.backgroundColor = '#e0e0e0';
+                        separator.style.margin = '5px 0';
+                        separator.setAttribute('role', 'separator');
+                        dropdown.appendChild(separator);
+                        return;
+                    }
+
+                    const menuOption = document.createElement('div');
+                    menuOption.className = 'dropdown-item';
+                    menuOption.setAttribute('role', 'menuitem'); // Accessibility
+
+                    const labelSpan = document.createElement('span');
+                    labelSpan.textContent = item.label;
+                    menuOption.appendChild(labelSpan);
+
+                    if (item.shortcut) {
+                        const shortcutSpan = document.createElement('span');
+                        shortcutSpan.textContent = item.shortcut;
+                        shortcutSpan.style.marginLeft = 'auto';
+                        shortcutSpan.style.paddingLeft = '20px'; // Ensure space
+                        shortcutSpan.style.fontSize = '0.8em';
+                        shortcutSpan.style.color = '#666';
+                        menuOption.appendChild(shortcutSpan);
+                    }
+
+                    menuOption.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        hideDropdown(dropdown);
+                        item.action();
+                    });
+                    dropdown.appendChild(menuOption);
+                });
+
+                menuItem.appendChild(dropdown);
+                menuItem.style.position = 'relative';
+
+                menuItem.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isVisible = dropdown.style.display === 'block';
+                    hideAllDropdowns();
+                    if (!isVisible) {
+                        showDropdown(dropdown, menuItem); // Pass menuItem for positioning
+                        dropdown.querySelector('[role="menuitem"]')?.focus(); // Focus first item
+                    }
+                });
+                menuItem.addEventListener('keydown', (e) => { // Keyboard navigation for menu
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        menuItem.click();
+                    }
+                });
+            }
+            
+            menuItems.forEach(menuItem => {
+                const menuName = menuItem.textContent.trim();
+                if (menuOptions[menuName]) {
+                    createDropdownMenu(menuItem, menuOptions[menuName]);
+                }
+                 menuItem.setAttribute('tabindex', '0'); // Make menu items focusable
+            });
+
+            function showDropdown(dropdown, menuItem) {
+                 dropdown.style.display = 'block';
+                 dropdown.style.visibility = 'hidden';
+
+                 const menuRect = menuItem.getBoundingClientRect();
+                 const dropdownHeight = dropdown.offsetHeight;
+                 const dropdownWidth = dropdown.offsetWidth;
+                 const spaceBelow = window.innerHeight - menuRect.bottom;
+                 const spaceRight = window.innerWidth - menuRect.left;
+
+                 dropdown.style.top = 'auto'; dropdown.style.bottom = 'auto';
+                 dropdown.style.left = 'auto'; dropdown.style.right = 'auto';
+
+                 if (window.innerWidth <= 768) { // Mobile fixed positioning
+                     dropdown.style.position = 'fixed';
+                     dropdown.style.top = '50%';
+                     dropdown.style.left = '50%';
+                     dropdown.style.transform = 'translate(-50%, -50%)';
+                     dropdown.style.width = '90%';
+                     dropdown.style.maxWidth = '350px';
+                     dropdown.style.maxHeight = '70vh';
+                 } else { // Desktop absolute positioning
+                     dropdown.style.position = 'absolute';
+                     dropdown.style.transform = 'none'; // Reset transform
+                     if (spaceBelow < dropdownHeight && menuRect.top > dropdownHeight) {
+                         dropdown.style.bottom = '100%'; // Position above
+                     } else {
+                         dropdown.style.top = '100%'; // Position below
+                     }
+                     if (menuRect.left + dropdownWidth > window.innerWidth) {
+                         dropdown.style.right = '0'; // Align to right of menu item if overflows
+                     } else {
+                         dropdown.style.left = '0'; // Align to left of menu item
+                     }
+                 }
+                 dropdown.style.visibility = 'visible';
+            }
+
+            function hideDropdown(dropdown) {
+                if (dropdown) dropdown.style.display = 'none';
+            }
+
+            function hideAllDropdowns() {
+                document.querySelectorAll('.dropdown-menu').forEach(hideDropdown);
+            }
+
+            document.addEventListener('click', hideAllDropdowns);
+            document.addEventListener('keydown', (e) => { // Close dropdowns with Escape key
+                if (e.key === 'Escape') {
+                    hideAllDropdowns();
+                }
+            });
+
+
+            function saveToLocalStorage() {
+                try {
+                    localStorage.setItem('notepad-content', editor.value);
+                } catch (e) {
+                    console.error('Error saving to local storage:', e);
+                    showNotification('Could not save note to local storage. Storage might be full or browser in private mode.', 'error');
+                }
+            }
+
+            function loadFromLocalStorage() {
+                try {
+                    const savedContent = localStorage.getItem('notepad-content');
+                    if (savedContent !== null) {
+                        editor.value = savedContent;
+                    }
+                } catch (e) {
+                    console.error('Error loading from local storage:', e);
+                     showNotification('Could not load note from local storage.', 'error');
+                }
+            }
+
+            let notificationTimeout;
+            function showNotification(message, type = 'info', duration = 3000) {
+                clearTimeout(notificationTimeout); // Clear existing timeout
+                const existingNotifications = document.querySelectorAll('.notification');
+                existingNotifications.forEach(n => n.remove());
+
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                notification.setAttribute('role', 'alert'); // Accessibility
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 10);
+
+                notificationTimeout = setTimeout(() => {
+                    notification.classList.remove('show');
+                    notification.addEventListener('transitionend', () => notification.remove(), { once: true });
+                    setTimeout(() => { if(notification.parentElement) notification.remove(); }, 500);
+                }, duration);
+            }
+
+            document.addEventListener('keydown', function(e) {
+                const isCtrlCmd = e.ctrlKey || e.metaKey;
+                let handled = false;
+
+                if (isCtrlCmd) {
+                    switch (e.key.toLowerCase()) {
+                        case 'n': newDocument(); handled = true; break;
+                        case 'o': openFile(); handled = true; break;
+                        case 's': saveDocument(); handled = true; break;
+                        // case 'p': /* Let browser handle print */ break;
+                        // case 'z': /* Let browser handle undo */ break;
+                        // case 'y': /* Let browser handle redo */ break;
+                        // case 'x': /* Let browser handle cut */ break;
+                        // case 'c': /* Let browser handle copy */ break;
+                        // case 'v': /* Let browser handle paste */ break;
+                        case 'a': selectAll(); handled = true; break;
+                        case '=': case '+': zoomIn(); handled = true; break; // Ctrl + '+' or Ctrl + '='
+                        case '-': zoomOut(); handled = true; break;
+                        // case 'f': /* Let browser handle find */ break;
+                    }
+                } else if (e.key === 'F11') {
+                     toggleFullscreen(); handled = true;
+                }
+
+                if (handled) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+
+            function updateFullscreenClass() {
+                const isFullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+                notepadContainer.classList.toggle('fullscreen', !!isFullscreen);
+            }
+            ['fullscreenchange', 'mozfullscreenchange', 'webkitfullscreenchange', 'msfullscreenchange'].forEach(event =>
+                document.addEventListener(event, updateFullscreenClass)
+            );
+
+            loadFromLocalStorage();
+            loadFontPreferences();
+            updateCounts();
+        });
+    </script>
+
+</body>
+</html>
